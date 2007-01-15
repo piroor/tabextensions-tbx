@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://tabextensions_tbx/locale/">
+
+<overlay
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript"><![CDATA[
+
+
+if (!window.TabbrowserTBXService) {
+
+
+var TabbrowserTBXService = {
+	onAfterInit : function()
+	{
+		if (!('tbxCommands' in window)) return;
+
+		gBrowser.__tabextensions__tbx__setDocShellPropertyFor = gBrowser.setDocShellPropertyFor;
+		gBrowser.setDocShellPropertyFor = this.setDocShellPropertyFor;
+
+		gBrowser.__tabextensions__tbx__resetDocShellProperties = gBrowser.resetDocShellProperties;
+		gBrowser.resetDocShellProperties = this.resetDocShellProperties;
+
+
+		tbxCommands.__tabextensions__toggleJavascriptInTab    = tbxCommands.toggleJavascriptInTab;
+		tbxCommands.__tabextensions__toggleImagesInTab        = tbxCommands.toggleImagesInTab;
+		tbxCommands.__tabextensions__toggleMetaRedirectsInTab = tbxCommands.toggleMetaRedirectsInTab;
+		tbxCommands.__tabextensions__togglePluginsInTab       = tbxCommands.togglePluginsInTab;
+
+		tbxCommands.toggleJavascriptInTab    = this.toggleJavascriptInTab;
+		tbxCommands.toggleImagesInTab        = this.toggleImagesInTab;
+		tbxCommands.toggleMetaRedirectsInTab = this.toggleMetaRedirectsInTab;
+		tbxCommands.togglePluginsInTab       = this.togglePluginsInTab;
+	},
+
+	setAsDefault : function(aButton)
+	{
+		var pref;
+		switch (aButton.id)
+		{
+			case 'tbx-javascript-tabpref':
+				pref = 'allowJavascript';
+				break;
+			case 'tbx-images-tabpref':
+				pref = 'allowImages';
+				break;
+			case 'tbx-metaredirects-tabpref':
+				pref = 'allowMetaRedirects';
+				break;
+			case 'tbx-plugins-tabpref':
+				pref = 'allowPlugins';
+				break;
+		}
+		pref = 'browser.tabs.extensions.'+pref+'.enabled';
+		TabbrowserService.setPref(pref, !TabbrowserService.getPref(pref));
+	},
+
+
+	setDocShellPropertyFor : function(aTab, aProp, aValue, aTargetURI, aShouldNotSaveStatus)
+	{
+		var retVal = this.__tabextensions__tbx__setDocShellPropertyFor(aTab, aProp, aValue, aTargetURI, aShouldNotSaveStatus);
+
+		if (aTab && aTab != gBrowser.selectedTab) return retVal;
+
+		var id;
+		switch (aProp)
+		{
+			case 'allowPlugins':
+				id = 'tbx-plugins-tabpref';
+				break;
+			case 'allowJavascript':
+				id = 'tbx-javascript-tabpref';
+				break;
+			case 'allowMetaRedirects':
+				id = 'tbx-metaredirects-tabpref';
+				break;
+			case 'allowImages':
+				id = 'tbx-images-tabpref';
+				break;
+			default:
+				break;
+		}
+		if (id) document.getElementById(id).checked = aTab[aProp];
+		return retVal;
+	},
+
+	resetDocShellProperties : function(aTab, aShouldNotSaveStatus)
+	{
+		var retVal = this.__tabextensions__tbx__resetDocShellProperties(aTab, aShouldNotSaveStatus);
+
+		if (aTab && aTab != gBrowser.selectedTab) return retVal;
+
+		document.getElementById('tbx-plugins-tabpref').checked = aTab.allowPlugins;
+		document.getElementById('tbx-javascript-tabpref').checked = aTab.allowJavascript;
+		document.getElementById('tbx-metaredirects-tabpref').checked = aTab.allowMetaRedirects;
+		document.getElementById('tbx-images-tabpref').checked = aTab.allowImages;
+
+		return retVal;
+	},
+
+
+	toggleJavascriptInTab : function()
+	{
+		if ('allowJavascript' in gBrowser.selectedTab) {
+			gBrowser.selectedTab.allowJavascript = !gBrowser.selectedTab.allowJavascript;
+			window.setTimeout(function() {
+				document.getElementById('tbx-javascript-tabpref').checked = gBrowser.selectedTab.allowJavascript;
+			}, 0);
+		}
+		else
+			this.__tabextensions__toggleJavascriptInTab();
+	},
+
+	toggleImagesInTab : function()
+	{
+		if ('allowImages' in gBrowser.selectedTab) {
+			gBrowser.selectedTab.allowImages = !gBrowser.selectedTab.allowImages;
+			window.setTimeout(function() {
+				document.getElementById('tbx-images-tabpref').checked = gBrowser.selectedTab.allowImages;
+			}, 0);
+		}
+		else
+			this.__tabextensions__toggleImagesInTab();
+	},
+
+	toggleMetaRedirectsInTab : function()
+	{
+		if ('allowMetaRedirects' in gBrowser.selectedTab) {
+			gBrowser.selectedTab.allowMetaRedirects = !gBrowser.selectedTab.allowMetaRedirects;
+			window.setTimeout(function() {
+				document.getElementById('tbx-metaredirects-tabpref').checked = gBrowser.selectedTab.allowMetaRedirects;
+			}, 0);
+		}
+		else
+			this.__tabextensions__toggleMetaRedirectsInTab();
+	},
+
+	togglePluginsInTab : function()
+	{
+		if ('allowPlugins' in gBrowser.selectedTab) {
+			gBrowser.selectedTab.allowPlugins = !gBrowser.selectedTab.allowPlugins;
+			window.setTimeout(function() {
+				document.getElementById('tbx-plugins-tabpref').checked = gBrowser.selectedTab.allowPlugins;
+			}, 0);
+		}
+		else
+			this.__tabextensions__togglePluginsInTab();
+	}
+};
+
+if (!window.TabbrowserServiceModules)
+	window.TabbrowserServiceModules = [];
+TabbrowserServiceModules.push(TabbrowserTBXService);
+
+
+}
+
+]]></script>
+
+
+<toolbarpalette id="BrowserToolbarPalette">
+	<toolbarbutton id="tbx-javascript-tabpref"
+		context="_child">
+		<menupopup oncommand="TabbrowserTBXService.setAsDefault(this.parentNode); event.stopPropagation();">
+			<menuitem label="&setAsDefault;"/>
+		</menupopup>
+	</toolbarbutton>
+	<toolbarbutton id="tbx-images-tabpref"
+		context="_child">
+		<menupopup oncommand="TabbrowserTBXService.setAsDefault(this.parentNode); event.stopPropagation();">
+			<menuitem label="&setAsDefault;"/>
+		</menupopup>
+	</toolbarbutton>
+	<toolbarbutton id="tbx-metaredirects-tabpref"
+		context="_child">
+		<menupopup oncommand="TabbrowserTBXService.setAsDefault(this.parentNode); event.stopPropagation();">
+			<menuitem label="&setAsDefault;"/>
+		</menupopup>
+	</toolbarbutton>
+	<toolbarbutton id="tbx-plugins-tabpref"
+		context="_child">
+		<menupopup oncommand="TabbrowserTBXService.setAsDefault(this.parentNode); event.stopPropagation();">
+			<menuitem label="&setAsDefault;"/>
+		</menupopup>
+	</toolbarbutton>
+</toolbarpalette>
+
+</overlay>
