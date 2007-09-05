@@ -1,62 +1,47 @@
-<?xml version="1.0"?>
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	 xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-	<Description about="urn:mozilla:install-manifest">
-
-		<em:id>{7DAF2B5F-4373-4744-B988-42CBE1D5AFB8}</em:id>
-
-		<em:version>1.0.2004082601</em:version>
-
-
-		<em:targetApplication>
-			<Description><!-- Firefox -->
-				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>0.8</em:minVersion>
-				<em:maxVersion>1.5.0.*</em:maxVersion>
-			</Description>
-			<Description><!-- Mozilla Suite -->
-				<em:id>{86c18b42-e466-45a9-ae7a-9b95ba6f5640}</em:id>
-				<em:minVersion>1.0</em:minVersion>
-				<em:maxVersion>1.8</em:maxVersion>
-			</Description>
-		</em:targetApplication>
+<?xml version="1.0" encoding="UTF-8"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="{7DAF2B5F-4373-4744-B988-42CBE1D5AFB8}"
+                   em:name="Tabbrowser Extensions:Toolbar Enhancements Patch"
+                   em:version="1.0.2004082601"
+                   em:creator="SHIMODA Hiroshi"
+                   em:description="This resolves conflict of TBE with &quot;Toolbar Enhancements&quot; extension."
+                   em:homepageURL="http://piro.sakura.ne.jp/xul/_tabextensions_modules.html"
+                   em:iconURL=""
+                   em:optionsURL="">
 
 
-		<em:name>Tabbrowser Extensions:Toolbar Enhancements Patch</em:name>
-		<em:description>This resolves conflict of TBE with &quot;Toolbar Enhancements&quot; extension.</em:description>
-		<em:creator>SHIMODA Hiroshi</em:creator>
-		<em:homepageURL>http://piro.sakura.ne.jp/xul/_tabextensions_modules.html</em:homepageURL>
-		<!--em:updateURL></em:updateURL-->
+    <em:updateURL>https://pub.cozmixng.org/~piro/xul/xul.rdf.en</em:updateURL>
 
 
-		<!--em:optionsURL></em:optionsURL-->
-		<!--em:aboutURL></em:aboutURL-->
-		<!--em:iconURL></em:iconURL-->
-
-
-		<em:file>
-			<Description about="urn:mozilla:extension:file:tabextensions_tbx.jar">
-				<em:package>content/tabextensions_tbx/</em:package>
-				<em:locale>locale/en-US/tabextensions_tbx/</em:locale>
-				<em:locale>locale/ja-JP/tabextensions_tbx/</em:locale>
-			</Description>
-		</em:file>
-
-
-		<em:requires>
-			<!-- Tabbrowser Extensions -->
-			<Description>
-				<em:id>{0B0B0DA8-08BA-4bc6-987C-6BC9F4D8A81E}</em:id>
-				<em:minVersion>1.10.2004042301</em:minVersion>
-				<em:maxVersion>1.99.9999999999</em:maxVersion>
-			</Description>
-			<!-- Toolbar Enhancements -->
-			<Description>
-				<em:id>tbx</em:id>
-				<em:minVersion>0.15</em:minVersion>
-				<em:maxVersion>99.0</em:maxVersion>
-			</Description>
-		</em:requires>
-
-	</Description>
-</RDF>
+    <em:targetApplication>
+      <!-- Firefox -->
+      <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                       em:minVersion="0.8"
+                       em:maxVersion="1.5.0.*" />
+      <!-- Mozilla Suite -->
+      <RDF:Description em:id="{86c18b42-e466-45a9-ae7a-9b95ba6f5640}"
+                       em:minVersion="1.0"
+                       em:maxVersion="1.8.*" />
+    </em:targetApplication>
+	<em:file>
+		<RDF:Description RDF:about="urn:mozilla:extension:file:tabextensions_tbx.jar">
+			<em:package>content/tabextensions_tbx/</em:package>
+			<em:locale>locale/en-US/tabextensions_tbx/</em:locale>
+			<em:locale>locale/ja-JP/tabextensions_tbx/</em:locale>
+		</RDF:Description>
+	</em:file>
+	<em:requires>
+		<!-- Tabbrowser Extensions -->
+		<RDF:Description em:id="{0B0B0DA8-08BA-4bc6-987C-6BC9F4D8A81E}"
+		                 em:minVersion="1.10.2004042301"
+		                 em:maxVersion="1.99.9999999999"/>
+		<!-- Toolbar Enhancements -->
+		<RDF:Description em:id="tbx"
+		                 em:minVersion="0.15"
+		                 em:maxVersion="99.0"/>
+	</em:requires>
+  </RDF:Description>
+</RDF:RDF>
