@@ -8,9 +8,11 @@
                    em:version="1.0.2004082601"
                    em:creator="SHIMODA Hiroshi"
                    em:description="This resolves conflict of TBE with &quot;Toolbar Enhancements&quot; extension."
-                   em:homepageURL="http://piro.sakura.ne.jp/xul/_tabextensions_modules.html"
+                   em:homepageURL="http://piro.sakura.ne.jp/xul/_tabextensions_modules.html">
+<!--
                    em:iconURL=""
-                   em:optionsURL="">
+                   em:optionsURL=""
+-->
 
 
     <em:updateURL>https://pub.cozmixng.org/~piro/xul/xul.rdf.en</em:updateURL>
